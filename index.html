@@ -276,9 +276,66 @@
     .hero{padding:44px 16px 56px;}
     .tabs{margin-top:-22px;}
   }
+
+  /* ============ PASSWORD GATE ============ */
+  #gate{
+    position:fixed; inset:0; z-index:9999;
+    background:#0b1023;
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+  }
+  #gate .gate-box{
+    max-width:380px; width:100%;
+    background:#111731;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:16px;
+    padding:32px 28px;
+    text-align:center;
+  }
+  #gate .gate-eyebrow{
+    font-size:12px; letter-spacing:.04em; color:#8b93b8;
+    text-transform:uppercase; margin-bottom:10px; display:block;
+  }
+  #gate h2{
+    color:#fff; font-size:22px; margin:0 0 8px;
+  }
+  #gate p{
+    color:#9aa2c2; font-size:14px; margin:0 0 22px; line-height:1.5;
+  }
+  #gate input{
+    width:100%; box-sizing:border-box;
+    padding:12px 14px; border-radius:10px;
+    border:1px solid rgba(255,255,255,.15);
+    background:#0b1023; color:#fff; font-size:15px;
+    margin-bottom:12px;
+  }
+  #gate input:focus{ outline:none; border-color:#6b7bff; }
+  #gate button{
+    width:100%; padding:12px 14px; border-radius:10px;
+    border:none; background:#4a5cff; color:#fff;
+    font-size:15px; font-weight:600; cursor:pointer;
+  }
+  #gate button:hover{ background:#3a4aee; }
+  #gate .gate-error{
+    color:#ff8080; font-size:13px; margin-top:10px; display:none;
+  }
+  #app-content{ display:none; }
 </style>
 </head>
 <body>
+
+<div id="gate">
+  <div class="gate-box">
+    <span class="gate-eyebrow">Dinámica — Servicio B</span>
+    <h2>Acceso al Kit</h2>
+    <p>Este contenido es exclusivo para clientes de Dinámica. Ingresá la contraseña que te compartimos para acceder.</p>
+    <input type="password" id="gate-pass" placeholder="Contraseña" autocomplete="off">
+    <button id="gate-btn">Ingresar</button>
+    <div class="gate-error" id="gate-error">Contraseña incorrecta. Probá de nuevo.</div>
+  </div>
+</div>
+
+<div id="app-content">
 
 <div class="hero">
   <div class="hero-inner">
@@ -784,6 +841,80 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
   renderBalance();
   renderMatrixTable();
   checkAddBtn();
+})();
+</script>
+
+</div><!-- /app-content -->
+
+<script>
+/* ================= PASSWORD GATE ================= */
+(function(){
+  var gate = document.getElementById('gate');
+  var appContent = document.getElementById('app-content');
+  var input = document.getElementById('gate-pass');
+  var btn = document.getElementById('gate-btn');
+  var error = document.getElementById('gate-error');
+
+  // Genera (o recupera) un ID único para este dispositivo/navegador
+  function getDeviceId(){
+    var id = localStorage.getItem('kit_device_id');
+    if(!id){
+      id = 'dev-' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+      localStorage.setItem('kit_device_id', id);
+    }
+    return id;
+  }
+
+  function showError(msg){
+    error.textContent = msg;
+    error.style.display = 'block';
+    input.value = '';
+    input.focus();
+  }
+
+  async function tryUnlock(){
+    btn.disabled = true;
+    btn.textContent = 'Verificando...';
+    error.style.display = 'none';
+
+    try{
+      var response = await fetch('/api/check-password', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          password: input.value,
+          deviceId: getDeviceId()
+        })
+      });
+      var data = await response.json();
+
+      if(data.ok){
+        localStorage.setItem('kit_unlocked', 'true');
+        gate.style.display = 'none';
+        appContent.style.display = 'block';
+      } else if(data.reason === 'device_limit'){
+        showError('Esta contraseña ya alcanzó el máximo de dispositivos permitidos.');
+      } else {
+        showError('Contraseña incorrecta. Probá de nuevo.');
+      }
+    }catch(e){
+      showError('Hubo un problema de conexión. Probá de nuevo.');
+    }finally{
+      btn.disabled = false;
+      btn.textContent = 'Ingresar';
+    }
+  }
+
+  // si ya se desbloqueó antes en este dispositivo/navegador, no pedir de nuevo
+  if(localStorage.getItem('kit_unlocked') === 'true'){
+    gate.style.display = 'none';
+    appContent.style.display = 'block';
+  }
+
+  btn.addEventListener('click', tryUnlock);
+  input.addEventListener('keydown', function(e){
+    if(e.key === 'Enter') tryUnlock();
+  });
 })();
 </script>
 </body>
