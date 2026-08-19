@@ -506,6 +506,8 @@ const VALID_PASSWORDS = [
 ];
 
 const MAX_DEVICES_PER_PASSWORD = 2;
+const EXPIRY_DAYS = 60; // 2 meses
+const EXPIRY_MS = EXPIRY_DAYS * 24 * 60 * 60 * 1000;
 
 let redis;
 function getRedis() {
@@ -532,22 +534,36 @@ export default async function handler(req, res) {
     }
 
     const client = getRedis();
-    const key = `pw:${password}`;
+    const devicesKey = `pw:${password}`;
+    const activatedKey = `pw:${password}:activated`;
+
+    // ¿Cuándo se activó esta contraseña por primera vez?
+    let activatedAt = await client.get(activatedKey);
+    if (!activatedAt) {
+      // Primera vez que se usa esta contraseña: la activamos ahora.
+      activatedAt = Date.now().toString();
+      await client.set(activatedKey, activatedAt);
+    }
+
+    const elapsed = Date.now() - Number(activatedAt);
+    if (elapsed > EXPIRY_MS) {
+      return res.status(403).json({ ok: false, reason: 'expired' });
+    }
 
     // ¿Este dispositivo ya estaba autorizado con esta contraseña?
-    const isMember = await client.sismember(key, deviceId);
+    const isMember = await client.sismember(devicesKey, deviceId);
     if (isMember) {
       return res.status(200).json({ ok: true });
     }
 
     // ¿Cuántos dispositivos distintos ya usaron esta contraseña?
-    const count = await client.scard(key);
+    const count = await client.scard(devicesKey);
     if (count >= MAX_DEVICES_PER_PASSWORD) {
       return res.status(403).json({ ok: false, reason: 'device_limit' });
     }
 
     // Autorizar este dispositivo nuevo
-    await client.sadd(key, deviceId);
+    await client.sadd(devicesKey, deviceId);
     return res.status(200).json({ ok: true });
 
   } catch (err) {
