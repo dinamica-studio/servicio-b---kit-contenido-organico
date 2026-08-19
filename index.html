@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kit de Contenido Orgánico — Dinámica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Paleta oficial Dinámica Studio */
+    --dinamica-pink:#E72166;
+    --dinamica-blue:#4B4595;
+    --dinamica-cyan-light:#B7DBCA;
+    --dinamica-cyan-mid:#9FC8BA;
+    --dinamica-orange:#E85C22;
+    --dinamica-white:#F5F3EF;
+    --dinamica-black:#0E0E0E;
+    --dinamica-gray:#6B6B6B;
+
+    --navy-900:#211D4A;
+    --navy-800:#4B4595;
+    --navy-700:#5D56A8;
+    --navy-500:#8B85C4;
+    --paper:#F5F3EF;
+    --paper-alt:#ECE9F5;
+    --card:#FFFFFF;
+    --amber:#E72166;
+    --amber-dark:#C11552;
+    --amber-light:#FBE1EA;
+    --ink:#0E0E0E;
+    --ink-soft:#6B6B6B;
+    --ink-faint:#9A9A9A;
+    --good:#2F7D5B;
+    --good-bg:#E5F3EC;
+    --warn:#E85C22;
+    --warn-bg:#FDE6DA;
+    --bad:#C11552;
+    --bad-bg:#FBE1EA;
+    --line:#E4E1DA;
+    --radius:14px;
+    --shadow:0 1px 2px rgba(14,14,14,0.04), 0 8px 24px rgba(14,14,14,0.06);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'DM Sans',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px 80px;}
+  h1,h2,h3,h4{font-family:'DM Serif Display',serif;margin:0;letter-spacing:-0.01em;}
+  .mono{font-family:'DM Sans',sans-serif;}
+
+  /* HEADER */
+  .hero{
+    background:linear-gradient(165deg, #6B0F38 0%, var(--dinamica-pink) 65%, #F17FA3 100%);
+    color:#fff;
+    padding:56px 20px 64px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0px, rgba(255,255,255,0.08) 1px, transparent 1px, transparent 64px);
+    pointer-events:none;
+  }
+  .hero-inner{max-width:920px;margin:0 auto;position:relative;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'DM Sans',sans-serif;
+    font-size:12px;letter-spacing:0.08em;text-transform:uppercase;
+    color:#fff;
+    background:rgba(255,255,255,0.16);
+    border:1px solid rgba(255,255,255,0.4);
+    padding:6px 12px;border-radius:100px;
+    margin-bottom:20px;
+  }
+  .hero h1{font-size:clamp(30px,4.4vw,44px);font-weight:700;line-height:1.08;max-width:680px;}
+  .hero p.sub{color:#C7D0E4;font-size:16px;max-width:560px;margin-top:14px;}
+  .hero-meta{display:flex;gap:28px;margin-top:32px;flex-wrap:wrap;}
+  .hero-meta div{font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(255,255,255,0.75);}
+  .hero-meta strong{display:block;color:#fff;font-family:'DM Serif Display',serif;font-size:15px;font-weight:600;}
+
+  /* TABS */
+  .tabs{
+    display:flex;gap:4px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:100px;
+    padding:4px;
+    margin:-28px 0 40px;
+    position:relative; z-index:2;
+    box-shadow:var(--shadow);
+    max-width:fit-content;
+  }
+  .tab-btn{
+    font-family:'DM Serif Display',serif;font-weight:600;font-size:14px;
+    padding:10px 20px;border-radius:100px;border:none;
+    background:transparent;color:var(--ink-soft);cursor:pointer;
+    transition:all .15s ease;
+  }
+  .tab-btn.active{background:var(--navy-800);color:#fff;}
+  .panel{display:none;}
+  .panel.active{display:block;animation:fadein .25s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+  .section-intro{margin-bottom:32px;}
+  .section-intro h2{font-size:22px;margin-bottom:8px;}
+  .section-intro p{color:var(--ink-soft);font-size:15px;max-width:640px;}
+
+  /* STEPPER LINE */
+  .stepper{position:relative;}
+  .stepper::before{
+    content:"";position:absolute;left:23px;top:14px;bottom:14px;width:2px;
+    background:var(--line);
+  }
+  .step{
+    position:relative;
+    display:flex;gap:20px;
+    margin-bottom:14px;
+  }
+  .step-num{
+    flex:none;width:48px;height:48px;border-radius:50%;
+    background:var(--card);border:2px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'DM Sans',sans-serif;font-weight:600;font-size:16px;color:var(--ink-faint);
+    position:relative;z-index:1;
+    transition:all .2s ease;
+  }
+  .step.done .step-num{background:var(--good);border-color:var(--good);color:#fff;}
+  .step.open .step-num{background:var(--amber);border-color:var(--amber);color:#fff;}
+  .step-body{flex:1;min-width:0;padding-bottom:6px;}
+  .step-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);overflow:hidden;
+  }
+  .step-head{
+    padding:16px 20px;cursor:pointer;
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+  }
+  .step-head h3{font-size:16px;}
+  .step-head .tag{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.06em;margin-top:3px;}
+  .chevron{transition:transform .2s ease;color:var(--ink-faint);flex:none;}
+  .step.open .chevron{transform:rotate(180deg);}
+  .step-content{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+  .step.open .step-content{max-height:none;overflow:visible;}
+  .step-inner{padding:0 20px 20px;border-top:1px solid var(--line);}
+  .guide{background:var(--paper-alt);border-radius:10px;padding:14px 16px;margin:16px 0;font-size:13.5px;color:var(--ink-soft);}
+  .guide b{color:var(--ink);}
+  label.field-label{display:block;font-size:12.5px;font-weight:600;color:var(--ink-soft);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.04em;}
+  textarea, select, input[type=text]{
+    width:100%;border:1px solid var(--line);border-radius:8px;padding:11px 12px;
+    font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);background:#fff;
+    resize:vertical;
+  }
+  textarea:focus, select:focus, input:focus{outline:2px solid var(--amber);outline-offset:1px;border-color:var(--amber);}
+  .btn{
+    font-family:'DM Serif Display',serif;font-weight:600;font-size:13.5px;
+    padding:10px 16px;border-radius:8px;border:1px solid var(--line);
+    background:#fff;color:var(--ink);cursor:pointer;
+    display:inline-flex;align-items:center;gap:7px;
+    transition:all .15s ease;
+  }
+  .btn:hover{border-color:var(--ink-faint);}
+  .btn-ai{background:var(--navy-800);color:#fff;border-color:var(--navy-800);}
+  .btn-ai:hover{background:var(--navy-700);}
+  .btn-ai:disabled{opacity:.55;cursor:wait;}
+  .btn-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+  .ai-box{
+    margin-top:14px;background:var(--amber-light);border:1px solid #F0A8C4;
+    border-radius:10px;padding:14px 16px;font-size:13.5px;color:#7A0E3A;
+    display:none;white-space:pre-wrap;
+  }
+  .ai-box.show{display:block;}
+  .ai-label{font-family:'DM Sans',sans-serif;font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--amber-dark);margin-bottom:6px;display:block;font-weight:600;}
+
+  /* FASE 2 */
+  .metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:20px 0;}
+  .metric-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);}
+  .metric-card h4{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);margin-bottom:4px;}
+  .metric-card .hint{font-size:12px;color:var(--ink-faint);margin-bottom:12px;}
+  .toggle-pair{display:flex;gap:8px;}
+  .toggle-opt{flex:1;text-align:center;padding:10px 8px;border-radius:8px;border:1.5px solid var(--line);cursor:pointer;font-family:'DM Serif Display',serif;font-weight:600;font-size:13px;color:var(--ink-soft);transition:all .15s ease;}
+  .toggle-opt.sel-high{background:var(--good-bg);border-color:var(--good);color:var(--good);}
+  .toggle-opt.sel-low{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);}
+
+  .diagnosis{
+    margin-top:24px;border-radius:var(--radius);padding:24px;
+    border:1.5px solid var(--line);background:var(--card);box-shadow:var(--shadow);
+    display:none;
+  }
+  .diagnosis.show{display:block;animation:fadein .3s ease;}
+  .diagnosis-badge{
+    display:inline-block;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.06em;padding:5px 12px;border-radius:100px;margin-bottom:14px;
+  }
+  .badge-repeat{background:var(--good-bg);color:var(--good);}
+  .badge-reform{background:var(--warn-bg);color:var(--warn);}
+  .badge-kill{background:var(--bad-bg);color:var(--bad);}
+  .diagnosis h3{font-size:19px;margin-bottom:8px;}
+  .diagnosis p{color:var(--ink-soft);font-size:14.5px;}
+  .diagnosis .action{margin-top:16px;padding-top:16px;border-top:1px solid var(--line);}
+  .diagnosis .action b{font-family:'DM Serif Display',serif;font-size:13px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink);}
+
+  .matrix-table{width:100%;border-collapse:collapse;margin-top:32px;font-size:13px;}
+  .matrix-table th{
+    background:var(--navy-800);color:#fff;font-family:'DM Serif Display',serif;font-weight:600;
+    text-align:left;padding:10px 12px;font-size:12px;
+  }
+  .matrix-table td{padding:10px 12px;border-bottom:1px solid var(--line);color:var(--ink-soft);}
+  .matrix-table tr:last-child td{border-bottom:none;}
+  .matrix-table td.strong{color:var(--ink);font-weight:600;}
+
+  /* AI calendar output */
+  .cal-output{margin-top:28px;}
+  .cal-output table{width:100%;border-collapse:collapse;font-size:13px;}
+  .cal-output th{background:var(--navy-800);color:#fff;padding:9px 10px;text-align:left;font-family:'DM Serif Display',serif;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em;}
+  .cal-output td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+
+  .save-note{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-faint);margin-top:24px;}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--good);flex:none;}
+
+  /* POST LOG (Fase 2) */
+  .post-form{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;}
+  .post-form h3{font-size:15px;margin-bottom:2px;}
+  .post-form .hint{color:var(--ink-faint);font-size:12.5px;margin-bottom:16px;}
+  .form-row{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:14px;}
+  @media (max-width:560px){.form-row{grid-template-columns:1fr;}}
+  .metric-grid-inline{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:6px;}
+  .metric-mini h4{font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);margin-bottom:8px;}
+  .btn-add{margin-top:18px;}
+  .btn-add:disabled{opacity:.5;cursor:not-allowed;}
+
+  .log-section{margin-top:36px;}
+  .log-section h3{font-size:17px;margin-bottom:4px;}
+  .log-section .hint{color:var(--ink-soft);font-size:13.5px;margin-bottom:16px;}
+  .log-empty{color:var(--ink-faint);font-size:13.5px;font-style:italic;padding:18px 0;}
+  .log-entry{
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:14px 16px;margin-bottom:8px;display:flex;align-items:flex-start;gap:14px;
+    box-shadow:var(--shadow);
+  }
+  .log-entry .le-main{flex:1;min-width:0;}
+  .log-entry .le-title{font-family:'DM Serif Display',serif;font-weight:600;font-size:14px;color:var(--ink);}
+  .log-entry .le-date{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--ink-faint);margin-top:2px;}
+  .log-entry .le-metrics{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--ink-faint);margin-top:4px;}
+  .log-entry .le-action{font-size:13px;color:var(--ink-soft);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);line-height:1.5;}
+  .log-entry .le-action b{color:var(--ink);}
+  .log-entry .le-badge{
+    font-family:'DM Sans',sans-serif;font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;
+    padding:5px 10px;border-radius:100px;flex:none;margin-top:1px;
+  }
+  .log-entry .le-del{
+    flex:none;border:none;background:transparent;color:var(--ink-faint);cursor:pointer;font-size:16px;
+    width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;margin-top:-3px;
+  }
+  .log-entry .le-del:hover{background:var(--bad-bg);color:var(--bad);}
+
+  .balance-section{margin-top:36px;}
+  .balance-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+  .balance-head h3{font-size:17px;}
+  .balance-head select{width:auto;min-width:170px;}
+  .balance-empty{color:var(--ink-faint);font-size:13.5px;font-style:italic;}
+  .balance-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  @media (max-width:560px){.balance-grid{grid-template-columns:1fr;}}
+  .balance-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;text-align:center;box-shadow:var(--shadow);}
+  .balance-card .num{font-family:'DM Serif Display',serif;font-weight:700;font-size:28px;}
+  .balance-card .lbl{font-family:'DM Sans',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin-top:4px;}
+  .balance-card.c-repeat .num{color:var(--good);}
+  .balance-card.c-reform .num{color:var(--warn);}
+  .balance-card.c-kill .num{color:var(--bad);}
+  .balance-insight{
+    margin-top:14px;background:var(--paper-alt);border-radius:10px;padding:14px 16px;font-size:13.5px;color:var(--ink-soft);
+  }
+  .balance-insight b{color:var(--ink);}
+
+  footer{text-align:center;padding:40px 20px;color:var(--ink-faint);font-size:12.5px;font-family:'DM Sans',sans-serif;}
+
+  @media (max-width:560px){
+    .hero{padding:44px 16px 56px;}
+    .tabs{margin-top:-22px;}
+  }
+
+  /* ============ PASSWORD GATE ============ */
+  #gate{
+    position:fixed; inset:0; z-index:9999;
+    background:#0b1023;
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+  }
+  #gate .gate-box{
+    max-width:380px; width:100%;
+    background:#111731;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:16px;
+    padding:32px 28px;
+    text-align:center;
+  }
+  #gate .gate-eyebrow{
+    font-size:12px; letter-spacing:.04em; color:#8b93b8;
+    text-transform:uppercase; margin-bottom:10px; display:block;
+  }
+  #gate h2{
+    color:#fff; font-size:22px; margin:0 0 8px;
+  }
+  #gate p{
+    color:#9aa2c2; font-size:14px; margin:0 0 22px; line-height:1.5;
+  }
+  #gate input{
+    width:100%; box-sizing:border-box;
+    padding:12px 14px; border-radius:10px;
+    border:1px solid rgba(255,255,255,.15);
+    background:#0b1023; color:#fff; font-size:15px;
+    margin-bottom:12px;
+  }
+  #gate input:focus{ outline:none; border-color:#6b7bff; }
+  #gate button{
+    width:100%; padding:12px 14px; border-radius:10px;
+    border:none; background:#4a5cff; color:#fff;
+    font-size:15px; font-weight:600; cursor:pointer;
+  }
+  #gate button:hover{ background:#3a4aee; }
+  #gate .gate-error{
+    color:#ff8080; font-size:13px; margin-top:10px; display:none;
+  }
+  #app-content{ display:none; }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="gate-box">
+    <span class="gate-eyebrow">Dinámica — Servicio B</span>
+    <h2>Acceso al Kit</h2>
+    <p>Este contenido es exclusivo para clientes de Dinámica. Ingresá la contraseña que te compartimos para acceder.</p>
+    <input type="password" id="gate-pass" placeholder="Contraseña" autocomplete="off">
+    <button id="gate-btn">Ingresar</button>
+    <div class="gate-error" id="gate-error">Contraseña incorrecta. Probá de nuevo.</div>
+  </div>
+</div>
+
+<div id="app-content">
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">● Dinámica — Servicio B</span>
+    <h1>Kit de Contenido Orgánico</h1>
+    <p class="sub">Un método en dos fases para armar y optimizar tu contenido sin necesitar presupuesto de pauta. Vos lo ejecutás, esto te da la estructura.</p>
+    <div class="hero-meta">
+      <div><strong>Fase 1</strong>Creación · 5 pasos</div>
+      <div><strong>Fase 2</strong>Optimización · registro mensual</div>
+      <div><strong>Historias</strong>Backstage & venta · calendario semanal</div>
+      <div><strong>Extra</strong>Asistencia con IA</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="fase1">Fase 1 · Creación</button>
+    <button class="tab-btn" data-tab="fase2">Fase 2 · Optimización</button>
+    <button class="tab-btn" data-tab="historias">Historias</button>
+  </div>
+
+  <!-- ================= FASE 1 ================= -->
+  <div class="panel active" id="fase1">
+    <div class="section-intro">
+      <h2>Armá tu estructura de contenido</h2>
+      <p>Completá cada paso en orden. Lo que escribas en un paso alimenta al siguiente — y podés pedirle ideas a la IA en cualquier momento a partir de lo que ya completaste.</p>
+    </div>
+
+    <div class="stepper" id="stepper"></div>
+
+    <div class="save-note"><span class="dot"></span> Tu progreso se guarda automáticamente en este dispositivo.</div>
+  </div>
+
+  <!-- ================= FASE 2 ================= -->
+  <div class="panel" id="fase2">
+    <div class="section-intro">
+      <h2>Registrá y diagnosticá cada publicación</h2>
+      <p>Cargá cada pieza que publiques con sus 3 métricas. Queda guardada en tu registro, y abajo vas a poder ver el balance del mes completo — no solo el diagnóstico aislado de un posteo.</p>
+    </div>
+
+    <div class="post-form">
+      <h3>Cargar una publicación</h3>
+      <div class="hint">Completá los datos del posteo y sus métricas para agregarlo al registro.</div>
+      <div class="form-row">
+        <div>
+          <label class="field-label" style="margin-top:0;" for="postTitle">Nombre / descripción del posteo</label>
+          <input type="text" id="postTitle" placeholder="Ej: Reel &quot;3 errores al entrenar en casa&quot;">
+        </div>
+        <div>
+          <label class="field-label" style="margin-top:0;" for="postDate">Fecha</label>
+          <input type="date" id="postDate">
+        </div>
+      </div>
+      <div class="metric-grid-inline">
+        <div class="metric-mini">
+          <h4>Retención</h4>
+          <div class="toggle-pair" data-metric="retencion">
+            <div class="toggle-opt" data-val="alta">Alta</div>
+            <div class="toggle-opt" data-val="baja">Baja</div>
+          </div>
+        </div>
+        <div class="metric-mini">
+          <h4>Interacción</h4>
+          <div class="toggle-pair" data-metric="interaccion">
+            <div class="toggle-opt" data-val="alta">Alta</div>
+            <div class="toggle-opt" data-val="baja">Baja</div>
+          </div>
+        </div>
+        <div class="metric-mini">
+          <h4>Alcance no-seguidores</h4>
+          <div class="toggle-pair" data-metric="alcance">
+            <div class="toggle-opt" data-val="alta">Alto</div>
+            <div class="toggle-opt" data-val="baja">Bajo</div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-ai btn-add" id="addPostBtn" disabled>+ Agregar al registro</button>
+    </div>
+
+    <div class="log-section">
+      <h3>Registro de publicaciones</h3>
+      <div class="hint">Todo lo que vayas cargando queda acá, ordenado del más reciente al más viejo.</div>
+      <div id="postLog"></div>
+    </div>
+
+    <div class="balance-section">
+      <div class="balance-head">
+        <h3>Balance mensual</h3>
+        <select id="monthSelect"></select>
+      </div>
+      <div id="balanceContent"></div>
+    </div>
+
+    <div class="section-intro" style="margin-top:36px;">
+      <h2 style="font-size:18px;">Matriz de referencia</h2>
+      <p>Así se calcula el diagnóstico de cada publicación individual.</p>
+    </div>
+    <table class="matrix-table">
+      <thead><tr><th>Retención</th><th>Interacción</th><th>Alcance</th><th>Diagnóstico</th><th>Acción</th></tr></thead>
+      <tbody id="matrixBody"></tbody>
+    </table>
+  </div>
+
+  <!-- ================= HISTORIAS ================= -->
+  <div class="panel" id="historias">
+    <div class="section-intro">
+      <h2>Armá tu estrategia de historias</h2>
+      <p>Mismo método, otra lógica: acá no vendés pulido, mostrás proceso. Las historias son el espacio para el día a día, la venta directa y la interacción rápida — completá cada paso en orden y pedile ideas a la IA cuando quieras.</p>
+    </div>
+
+    <div class="stepper" id="stepperHistorias"></div>
+
+    <div class="save-note"><span class="dot"></span> Tu progreso se guarda automáticamente en este dispositivo.</div>
+  </div>
+</div>
+
+<footer>DINÁMICA — SERVICIO B · KIT DE CONTENIDO ORGÁNICO</footer>
+
+<script>
+/* ================= DATA ================= */
+const STEPS = [
+  {
+    id:'negocio', tag:'Paso 1', title:'Contanos qué hace tu negocio',
+    guide:'Antes de definir público, insights o hooks, necesitamos contexto de la marca en sí: a qué se dedica, qué vende, qué la hace distinta. Con esto la IA va a entender mejor tu rubro en cada sugerencia que te dé.',
+    fields:[{key:'negocio', label:'¿Qué es tu marca? Resumen breve (máx. 100 palabras)', placeholder:'Ej: Somos una marca de indumentaria deportiva para mujeres que arrancan a entrenar, con foco en talles reales y diseño simple. Vendemos por Instagram y tienda online.', maxWords:100}]
+  },
+  {
+    id:'publico', tag:'Paso 2', title:'Definí tu público',
+    guide:'No pienses en "todos". Pensá en UNA persona concreta: ¿a quién le hablás, qué problema tiene, qué edad tiene, qué le importa hoy?',
+    fields:[{key:'publico', label:'¿A quién le hablás?', placeholder:'Ej: Mujeres de 28-40 que arrancan a entrenar en casa, sin tiempo, cansadas de rutinas genéricas...'}]
+  },
+  {
+    id:'insights', tag:'Paso 3', title:'Definí sus insights',
+    guide:'Un insight no es lo que tu público dice — es lo que piensa y no dice. ¿Qué miedo, creencia o frustración tiene respecto al tema (no a tu producto)?',
+    fields:[{key:'insights', label:'¿Qué piensa/siente tu público sobre esto?', placeholder:'Ej: "Siento que ya perdí mucho tiempo probando cosas que no funcionan"...'}],
+    ai:true, aiLabel:'💡 Sugerime insights con IA'
+  },
+  {
+    id:'hooks', tag:'Paso 4', title:'Armá tus hooks',
+    guide:'El hook es lo primero que ve o escucha tu público. Basate en el insight: una pregunta, una afirmación que incomode, un dato que sorprenda.',
+    fields:[{key:'hooks', label:'Escribí 3-5 hooks', placeholder:'Ej: "Nadie te dijo esto sobre entrenar en casa..."'}],
+    ai:true, aiLabel:'💡 Generame hooks con IA'
+  },
+  {
+    id:'pilares', tag:'Paso 5', title:'Definí tus pilares de contenido',
+    guide:'Los pilares son los "tipos" de contenido que sostienen tus hooks: educativo, entretenimiento, prueba social, detrás de escena. Definí 2-4 y qué % de tu contenido va a cada uno.',
+    fields:[{key:'pilares', label:'Tus pilares y su mezcla', placeholder:'Ej: 40% educativo, 30% prueba social, 20% entretenimiento, 10% detrás de escena'}],
+    ai:true, aiLabel:'💡 Sugerime pilares con IA'
+  },
+  {
+    id:'calendario', tag:'Paso 6', title:'Calendarizá el mes',
+    guide:'Con todo lo anterior, armá cuándo publicás qué. La frecuencia tiene que ser una que puedas sostener, no una ideal que abandonás a la semana 2.',
+    fields:[{key:'frecuencia', label:'¿Cuántas veces por semana podés publicar, en serio?', type:'select', options:[1,2,3,4,5,6,7]}],
+    ai:true, aiLabel:'📅 Generar calendario del mes con IA', aiIsCalendar:true
+  }
+];
+
+const MATRIX = [
+  {ret:'alta',int:'alta',alc:'alta', badge:'repeat', title:'Funcionó en todos los niveles', desc:'El hook enganchó, generó reacción y llegó a gente nueva. Esta fórmula funciona de punta a punta.', action:'Repetí la misma fórmula (hook + formato) con otro insight de tu público. Es momento de escalar este pilar de contenido.'},
+  {ret:'alta',int:'alta',alc:'baja', badge:'reform', title:'Buen contenido, mala distribución', desc:'El contenido funcionó — enganchó e hizo reaccionar a quien lo vio. El problema no es el contenido, es que no llegó a gente nueva.', action:'No toques el contenido. Repetilo probando otro horario, otro día de la semana, o subilo como otro formato (reel → carrusel).'},
+  {ret:'alta',int:'baja',alc:'alta', badge:'reform', title:'Enganchó pero no generó reacción', desc:'El hook funcionó y llegó lejos, pero no logró que la gente interactúe. Probablemente el cierre no da pie a comentar, guardar o compartir.', action:'Reformulá el cierre o el CTA. Agregá una pregunta directa, una invitación a guardar, o algo polémico/opinable al final.'},
+  {ret:'alta',int:'baja',alc:'baja', badge:'reform', title:'El hook funcionó, el resto no acompañó', desc:'Retuvo la atención inicial pero no generó ni interacción ni alcance nuevo. El contenido no cumple lo que promete el hook.', action:'Mantené el hook, reformulá el desarrollo del contenido: asegurate que entregue lo que promete en los primeros segundos.'},
+  {ret:'baja',int:'alta',alc:'alta', badge:'reform', title:'Caso atípico: revisá la data', desc:'Retención baja pero interacción y alcance altos es poco común — puede ser un formato donde la retención no es el driver principal (ej. carruseles).', action:'Miralo por formato: si es carrusel/imagen, la retención pesa menos. Si es reel, revisá si el hook realmente frenó el scroll.'},
+  {ret:'baja',int:'alta',alc:'baja', badge:'reform', title:'Interacción sin retención ni alcance', desc:'Algo generó reacción en los que lo vieron, pero pocos se quedaron y pocos nuevos lo vieron. Puede ser un público muy nicho reaccionando fuerte.', action:'Reformulá el hook de apertura mantendiendo el mensaje central que generó la reacción.'},
+  {ret:'baja',int:'baja',alc:'alta', badge:'reform', title:'Alcanzó pero no retuvo ni generó reacción', desc:'El algoritmo lo empujó, pero el contenido no logró sostener la atención de la gente nueva que llegó.', action:'Reformulá el hook — tenés distribución a favor, aprovechala con una apertura más fuerte.'},
+  {ret:'baja',int:'baja',alc:'baja', badge:'kill', title:'No funcionó en ningún nivel', desc:'Ni retuvo, ni generó reacción, ni llegó a gente nueva. No es un tema de ajuste menor.', action:'Matá la idea — no la reformules. Volvé al paso 1-2: revisá si el insight detrás realmente le importa a tu público.'},
+];
+
+const STEPS_HISTORIAS = [
+  {
+    id:'negocioHistorias', tag:'Paso 1', title:'Contanos qué hace tu negocio',
+    guide:'Mismo contexto que en la estrategia de feed — así la IA arma ideas de historias alineadas a tu marca real. Si ya lo completaste en la otra pestaña, se autocompleta acá solo.',
+    fields:[{key:'negocioHistorias', label:'¿Qué es tu marca? Resumen breve (máx. 100 palabras)', placeholder:'Ej: Somos una marca de indumentaria deportiva para mujeres que arrancan a entrenar, con foco en talles reales y diseño simple.', maxWords:100}]
+  },
+  {
+    id:'momentos', tag:'Paso 2', title:'Identificá tus momentos backstage',
+    guide:'Las historias no son contenido pulido — son el día a día. Pensá en lo que pasa antes, durante y después de lo que mostrás en el feed: procesos, bloopers, reacciones reales.',
+    fields:[{key:'momentos', label:'¿Qué momentos de tu día a día podés mostrar?', placeholder:'Ej: armando pedidos, probando algo nuevo, la reacción de un cliente, el detrás de escena de una sesión...'}],
+    ai:true, aiLabel:'💡 Sugerime momentos backstage con IA'
+  },
+  {
+    id:'venta', tag:'Paso 3', title:'Definí qué y cómo vender',
+    guide:'En historias la venta es directa y sin vueltas. ¿Qué vas a empujar y con qué excusa — oferta, urgencia, testimonio, demo en vivo?',
+    fields:[{key:'venta', label:'¿Qué vas a vender y con qué gancho?', placeholder:'Ej: descuento por 24hs con cuenta regresiva, mostrar el producto en uso real, responder la pregunta más común como excusa para venderlo...'}],
+    ai:true, aiLabel:'💡 Sugerime ganchos de venta con IA'
+  },
+  {
+    id:'interaccion', tag:'Paso 4', title:'Armá tus formatos de interacción',
+    guide:'Las historias tienen herramientas que el feed no tiene: encuestas, cajas de preguntas, cuenta regresiva, quiz, slider. Son la vía más rápida para generar cercanía real.',
+    fields:[{key:'interaccion', label:'¿Qué stickers/formatos vas a usar y para qué?', placeholder:'Ej: encuesta "esto o esto" para elegir producto, caja de preguntas para dudas frecuentes, cuenta regresiva para lanzamientos...'}],
+    ai:true, aiLabel:'💡 Sugerime formatos de interacción con IA'
+  },
+  {
+    id:'frecuencia_historias', tag:'Paso 5', title:'Calendarizá tu semana de historias',
+    guide:'A diferencia del feed, las historias se sostienen con frecuencia diaria. Definí cuántas subís por día, en serio — mejor pocas y sostenidas que muchas la primera semana y ninguna después.',
+    fields:[{key:'frecuencia_historias', label:'¿Cuántas historias por día podés sostener, en serio?', type:'select', options:[1,2,3,4,5]}],
+    ai:true, aiLabel:'📅 Generar calendario semanal de historias con IA', aiIsCalendar:true
+  }
+];
+
+/* ================= STATE / STORAGE ================= */
+let kitData = {};
+const STORAGE_KEY = 'kit-contenido-progreso';
+let storiesData = {};
+const STORIES_STORAGE_KEY = 'kit-contenido-historias-progreso';
+
+async function loadStoriesState(){
+  try{
+    const res = await window.storage.get(STORIES_STORAGE_KEY);
+    if(res && res.value) storiesData = JSON.parse(res.value);
+  }catch(e){ storiesData = {}; }
+}
+let saveTimerHistorias;
+function queueSaveHistorias(){
+  clearTimeout(saveTimerHistorias);
+  saveTimerHistorias = setTimeout(async ()=>{
+    try{ await window.storage.set(STORIES_STORAGE_KEY, JSON.stringify(storiesData)); }catch(e){}
+  }, 500);
+}
+
+async function loadState(){
+  try{
+    const res = await window.storage.get(STORAGE_KEY);
+    if(res && res.value) kitData = JSON.parse(res.value);
+  }catch(e){ kitData = {}; }
+}
+let saveTimer;
+function queueSave(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async ()=>{
+    try{ await window.storage.set(STORAGE_KEY, JSON.stringify(kitData)); }catch(e){}
+  }, 500);
+}
+
+/* ================= RENDER STEPPER ================= */
+function renderSteps(){
+  const wrap = document.getElementById('stepper');
+  wrap.innerHTML = '';
+  STEPS.forEach((step, idx)=>{
+    const filled = step.fields.every(f => (kitData[f.key]||'').trim().length > 0);
+    const el = document.createElement('div');
+    el.className = 'step' + (filled?' done':'') + (idx===0?' open':'');
+    el.id = 'step-'+step.id;
+    el.innerHTML = `
+      <div class="step-num">${filled? '✓' : idx+1}</div>
+      <div class="step-body">
+        <div class="step-card">
+          <div class="step-head" data-toggle="${step.id}">
+            <div><h3>${step.title}</h3><div class="tag">${step.tag}</div></div>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="step-content">
+            <div class="step-inner">
+              <div class="guide">${step.guide}</div>
+              ${step.fields.map(f => `
+                <label class="field-label" for="f-${f.key}">${f.label}</label>
+                ${f.type === 'select'
+                  ? `<select id="f-${f.key}">
+                      <option value="">Elegí una frecuencia...</option>
+                      ${f.options.map(o => `<option value="${o}" ${String(kitData[f.key])===String(o)?'selected':''}>${o} vez${o===1?'':'es'} por semana</option>`).join('')}
+                    </select>`
+                  : `<textarea id="f-${f.key}" rows="3" placeholder="${f.placeholder}">${kitData[f.key]||''}</textarea>`
+                }
+                ${f.key === 'frecuencia' ? '<div class="hint" id="freqPreview" style="margin-top:6px;"></div>' : ''}
+                ${f.maxWords ? `<div class="hint" id="wc-${f.key}" style="margin-top:6px;"></div>` : ''}
+              `).join('')}
+              <div class="btn-row">
+                ${step.ai ? `<button class="btn btn-ai" data-ai="${step.id}">${step.aiLabel}</button>` : ''}
+              </div>
+              ${step.id === 'calendario' ? '<div class="hint" id="historyNote" style="margin-top:8px;"></div>' : ''}
+              <div class="ai-box" id="ai-${step.id}"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    wrap.appendChild(el);
+  });
+
+  // bind toggles
+  wrap.querySelectorAll('[data-toggle]').forEach(h=>{
+    h.addEventListener('click', ()=>{
+      const stepEl = h.closest('.step');
+      stepEl.classList.toggle('open');
+    });
+  });
+  // bind fields (textarea + select)
+  STEPS.forEach(step=>{
+    step.fields.forEach(f=>{
+      const el = document.getElementById('f-'+f.key);
+      const evt = f.type === 'select' ? 'change' : 'input';
+      el.addEventListener(evt, ()=>{
+        kitData[f.key] = el.value;
+        queueSave();
+        refreshStepStates();
+        if(f.key === 'frecuencia') updateFreqPreview();
+        if(f.maxWords) updateWordCountHint('wc-'+f.key, el.value, f.maxWords);
+        if(f.key === 'negocio'){
+          storiesData.negocioHistorias = el.value;
+          queueSaveHistorias();
+          const mirror = document.getElementById('f-negocioHistorias');
+          if(mirror){ mirror.value = el.value; updateWordCountHint('wc-negocioHistorias', el.value, 100); }
+          refreshStoriesStepStates();
+        }
+      });
+    });
+  });
+  updateFreqPreview();
+  STEPS.forEach(step=> step.fields.forEach(f=>{ if(f.maxWords) updateWordCountHint('wc-'+f.key, kitData[f.key]||'', f.maxWords); }));
+  // bind AI buttons
+  wrap.querySelectorAll('[data-ai]').forEach(btn=>{
+    btn.addEventListener('click', ()=> runAI(btn.dataset.ai));
+  });
+}
+
+function refreshStepStates(){
+  STEPS.forEach((step,idx)=>{
+    const filled = step.fields.every(f => (kitData[f.key]||'').trim().length > 0);
+    const el = document.getElementById('step-'+step.id);
+    const numEl = el.querySelector('.step-num');
+    el.classList.toggle('done', filled);
+    numEl.textContent = filled ? '✓' : (idx+1);
+  });
+}
+
+/* ================= RENDER STEPPER — HISTORIAS ================= */
+function renderStoriesSteps(){
+  const wrap = document.getElementById('stepperHistorias');
+  wrap.innerHTML = '';
+  STEPS_HISTORIAS.forEach((step, idx)=>{
+    const filled = step.fields.every(f => (storiesData[f.key]||'').trim().length > 0);
+    const el = document.createElement('div');
+    el.className = 'step' + (filled?' done':'') + (idx===0?' open':'');
+    el.id = 'step-'+step.id;
+    el.innerHTML = `
+      <div class="step-num">${filled? '✓' : idx+1}</div>
+      <div class="step-body">
+        <div class="step-card">
+          <div class="step-head" data-toggle="${step.id}">
+            <div><h3>${step.title}</h3><div class="tag">${step.tag}</div></div>
+            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="step-content">
+            <div class="step-inner">
+              <div class="guide">${step.guide}</div>
+              ${step.fields.map(f => `
+                <label class="field-label" for="f-${f.key}">${f.label}</label>
+                ${f.type === 'select'
+                  ? `<select id="f-${f.key}">
+                      <option value="">Elegí una frecuencia...</option>
+                      ${f.options.map(o => `<option value="${o}" ${String(storiesData[f.key])===String(o)?'selected':''}>${o} historia${o===1?'':'s'} por día</option>`).join('')}
+                    </select>`
+                  : `<textarea id="f-${f.key}" rows="3" placeholder="${f.placeholder}">${storiesData[f.key]||''}</textarea>`
+                }
+                ${f.key === 'frecuencia_historias' ? '<div class="hint" id="freqPreviewHistorias" style="margin-top:6px;"></div>' : ''}
+                ${f.maxWords ? `<div class="hint" id="wc-${f.key}" style="margin-top:6px;"></div>` : ''}
+              `).join('')}
+              <div class="btn-row">
+                ${step.ai ? `<button class="btn btn-ai" data-ai="${step.id}">${step.aiLabel}</button>` : ''}
+              </div>
+              ${step.id === 'frecuencia_historias' ? '<div class="hint" id="historyNoteHistorias" style="margin-top:8px;"></div>' : ''}
+              <div class="ai-box" id="ai-${step.id}"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    wrap.appendChild(el);
+  });
+
+  wrap.querySelectorAll('[data-toggle]').forEach(h=>{
+    h.addEventListener('click', ()=>{
+      const stepEl = h.closest('.step');
+      stepEl.classList.toggle('open');
+    });
+  });
+  STEPS_HISTORIAS.forEach(step=>{
+    step.fields.forEach(f=>{
+      const el = document.getElementById('f-'+f.key);
+      const evt = f.type === 'select' ? 'change' : 'input';
+      el.addEventListener(evt, ()=>{
+        storiesData[f.key] = el.value;
+        queueSaveHistorias();
+        refreshStoriesStepStates();
+        if(f.key === 'frecuencia_historias') updateFreqPreviewHistorias();
+        if(f.maxWords) updateWordCountHint('wc-'+f.key, el.value, f.maxWords);
+        if(f.key === 'negocioHistorias'){
+          kitData.negocio = el.value;
+          queueSave();
+          const mirror = document.getElementById('f-negocio');
+          if(mirror){ mirror.value = el.value; updateWordCountHint('wc-negocio', el.value, 100); }
+          refreshStepStates();
+        }
+      });
+    });
+  });
+  updateFreqPreviewHistorias();
+  STEPS_HISTORIAS.forEach(step=> step.fields.forEach(f=>{ if(f.maxWords) updateWordCountHint('wc-'+f.key, storiesData[f.key]||'', f.maxWords); }));
+  wrap.querySelectorAll('[data-ai]').forEach(btn=>{
+    btn.addEventListener('click', ()=> runStoriesAI(btn.dataset.ai));
+  });
+}
+
+function refreshStoriesStepStates(){
+  STEPS_HISTORIAS.forEach((step,idx)=>{
+    const filled = step.fields.every(f => (storiesData[f.key]||'').trim().length > 0);
+    const el = document.getElementById('step-'+step.id);
+    const numEl = el.querySelector('.step-num');
+    el.classList.toggle('done', filled);
+    numEl.textContent = filled ? '✓' : (idx+1);
+  });
+}
+
+function updateFreqPreviewHistorias(){
+  const el = document.getElementById('freqPreviewHistorias');
+  if(!el) return;
+  const {daily, total} = estimateWeeklyStoryCount();
+  el.textContent = storiesData.frecuencia_historias
+    ? `📅 Con eso, el calendario semanal va a traer ${total} historias (${daily} por día × 7 días).`
+    : '';
+}
+
+function estimateWeeklyStoryCount(){
+  let daily = parseInt(storiesData.frecuencia_historias, 10);
+  if(!daily || daily < 1) daily = 2;
+  return { daily, total: daily * 7 };
+}
+
+function contextSummaryHistorias(){
+  return `Sobre el negocio: ${storiesData.negocioHistorias || kitData.negocio || '(no definido aún)'}
+Público objetivo: ${kitData.publico || '(no definido aún)'}
+Insights: ${kitData.insights || '(no definido aún)'}
+Momentos backstage a mostrar: ${storiesData.momentos || '(no definido aún)'}
+Qué vender y con qué gancho: ${storiesData.venta || '(no definido aún)'}
+Formatos de interacción a usar: ${storiesData.interaccion || '(no definido aún)'}
+Historias por día: ${storiesData.frecuencia_historias || '(no definida aún)'}`;
+}
+
+async function runStoriesAI(stepId){
+  if(stepId === 'frecuencia_historias'){ return runStoriesCalendarAI(); }
+
+  const btn = document.querySelector(`#stepperHistorias [data-ai="${stepId}"]`);
+  const box = document.getElementById('ai-'+stepId);
+  const originalLabel = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Generando...';
+  box.classList.add('show');
+  box.innerHTML = '<span class="ai-label">IA</span>Pensando ideas para vos...';
+
+  try{
+    let prompt = '';
+    if(stepId === 'momentos'){
+      prompt = `Sos un estratega de contenido orgánico para redes sociales de una agencia argentina llamada Dinámica. Contexto del cliente:\n${contextSummaryHistorias()}\n\nGenerá 4 momentos "backstage" o de día a día que esta marca podría mostrar en historias de Instagram, pensados para generar cercanía con el público. Respondé SOLO con una lista numerada de 4 ideas, en español rioplatense, sin preámbulo. Máximo 20 palabras cada una.`;
+    } else if(stepId === 'venta'){
+      prompt = `Sos un estratega de contenido orgánico para redes sociales de una agencia argentina llamada Dinámica. Contexto del cliente:\n${contextSummaryHistorias()}\n\nGenerá 4 formas de vender en historias de Instagram para esta marca — cada una con un gancho concreto (oferta, urgencia, testimonio, demo en vivo, etc). Respondé SOLO con una lista numerada de 4 ideas, en español rioplatense, sin preámbulo. Máximo 20 palabras cada una.`;
+    } else if(stepId === 'interaccion'){
+      prompt = `Sos un estratega de contenido orgánico para redes sociales de una agencia argentina llamada Dinámica. Contexto del cliente:\n${contextSummaryHistorias()}\n\nGenerá 4 ideas de historias usando stickers interactivos de Instagram (encuesta, caja de preguntas, cuenta regresiva, quiz, slider) adaptadas a esta marca y público. Para cada una indicá el sticker y para qué sirve. Respondé SOLO con una lista numerada de 4 ideas, en español rioplatense, sin preámbulo. Máximo 20 palabras cada una.`;
+    }
+
+    const result = await callClaude(prompt, 1000);
+    box.innerHTML = '<span class="ai-label">IA · Sugerencias (copiá lo que te sirva)</span>' + escapeHTML(result);
+  }catch(e){
+    box.innerHTML = '<span class="ai-label">IA</span>No se pudo generar en este momento. Probá de nuevo en unos segundos.';
+  }finally{
+    btn.disabled = false;
+    btn.textContent = originalLabel;
+  }
+}
+
+/* Historial de ideas de historias (evitar repetición semana a semana / mes a mes) */
+const STORIES_CAL_HISTORY_KEY = 'kit-contenido-historias-idea-historial';
+let calHistoryStories = [];
+
+async function loadStoriesCalHistory(){
+  try{
+    const res = await window.storage.get(STORIES_CAL_HISTORY_KEY);
+    if(res && res.value) calHistoryStories = JSON.parse(res.value);
+  }catch(e){ calHistoryStories = []; }
+}
+function saveStoriesCalHistory(){
+  window.storage.set(STORIES_CAL_HISTORY_KEY, JSON.stringify(calHistoryStories)).catch(()=>{});
+}
+function allUsedStoryIdeas(){
+  const fromHistory = calHistoryStories.flatMap(h => h.ideas);
+  return [...new Set(fromHistory)].slice(-80);
+}
+function renderStoriesHistoryNote(){
+  const el = document.getElementById('historyNoteHistorias');
+  if(!el) return;
+  const count = allUsedStoryIdeas().length;
+  el.textContent = count > 0
+    ? `🔁 Vamos a evitar repetir ${count} idea${count===1?'':'s'} de historias ya generada${count===1?'':'s'} en semanas anteriores.`
+    : '';
+}
+
+async function runStoriesCalendarAI(){
+  const btn = document.querySelector(`#stepperHistorias [data-ai="frecuencia_historias"]`);
+  const box = document.getElementById('ai-frecuencia_historias');
+  const originalLabel = btn.textContent;
+  btn.disabled = true;
+  box.classList.add('show');
+
+  const {daily, total} = estimateWeeklyStoryCount();
+  const usedFromHistory = allUsedStoryIdeas();
+  const generatedThisRun = [];
+  let combinedHeader = null;
+  const combinedBody = [];
+  const dayNames = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+
+  try{
+    for(let day = 1; day <= 7; day++){
+      btn.textContent = `Generando día ${day} de 7...`;
+      box.innerHTML = `<span class="ai-label">IA · Generando ${dayNames[day-1]}</span>Armando ${daily} historia${daily===1?'':'s'} para ${dayNames[day-1]}...`
+        + (combinedBody.length ? markdownRowsToHTML(combinedHeader, combinedBody) : '');
+
+      const exclusionList = [...usedFromHistory, ...generatedThisRun];
+      const exclusion = exclusionList.length
+        ? `\n\nIMPORTANTE — estas ideas ya se usaron (semanas anteriores o días previos de este mismo calendario). NO las repitas ni generes variaciones muy parecidas:\n${exclusionList.slice(-60).map(u=>'- '+u).join('\n')}`
+        : '';
+
+      const prompt = `Sos un estratega de contenido orgánico para redes sociales de una agencia argentina llamada Dinámica. Contexto del cliente:\n${contextSummaryHistorias()}\n\nArmá EXACTAMENTE ${daily} idea${daily===1?'':'s'} de historias de Instagram para el día ${dayNames[day-1]} (día ${day} de una semana de 7). Recordá que las historias son espontáneas, de día a día, y mezclan backstage con venta directa e interacción — no son contenido pulido de feed. Para cada idea dame: Objetivo (backstage/venta/interacción), Qué mostrás (breve, concreto), Formato o sticker sugerido, CTA (qué le pedís al que la ve). Respondé SOLO en formato de tabla markdown con columnas: Objetivo | Qué mostrás | Formato/Sticker | CTA. Sin texto antes ni después de la tabla. En español rioplatense.${exclusion}`;
+
+      const result = await callClaude(prompt, 2000);
+      const parsed = parseMarkdownTable(result);
+      if(parsed){
+        if(!combinedHeader) combinedHeader = ['Día', ...parsed.header];
+        parsed.body.forEach(row => combinedBody.push([dayNames[day-1], ...row]));
+        const showIdx = parsed.header.findIndex(h => /muestr/i.test(h));
+        if(showIdx !== -1) generatedThisRun.push(...parsed.body.map(r => r[showIdx]).filter(Boolean));
+      }
+    }
+
+    box.innerHTML = `<span class="ai-label">IA · Calendario semanal de historias (${combinedBody.length} ideas)</span>` + markdownRowsToHTML(combinedHeader, combinedBody);
+
+    if(generatedThisRun.length){
+      calHistoryStories.push({date: new Date().toISOString().slice(0,10), ideas: generatedThisRun});
+      saveStoriesCalHistory();
+      renderStoriesHistoryNote();
+    }
+  }catch(e){
+    box.innerHTML = '<span class="ai-label">IA</span>No se pudo generar el calendario completo. Probá de nuevo — lo que ya se generó de los días anteriores no se perdió.'
+      + (combinedBody.length ? markdownRowsToHTML(combinedHeader, combinedBody) : '');
+  }finally{
+    btn.disabled = false;
+    btn.textContent = originalLabel;
+  }
+}
+
+/* ================= HISTORIAL DE IDEAS (evitar repetición mes a mes) ================= */
+const CAL_HISTORY_KEY = 'kit-contenido-idea-historial';
+let calHistory = []; // [{date:'2026-08-14', hooks:['...','...']}]
+
+async function loadCalHistory(){
+  try{
+    const res = await window.storage.get(CAL_HISTORY_KEY);
+    if(res && res.value) calHistory = JSON.parse(res.value);
+  }catch(e){ calHistory = []; }
+}
+function saveCalHistory(){
+  window.storage.set(CAL_HISTORY_KEY, JSON.stringify(calHistory)).catch(()=>{});
+}
+function allUsedIdeas(){
+  // combina ideas ya generadas en meses anteriores + títulos de posteos ya cargados en el registro (Fase 2)
+  const fromHistory = calHistory.flatMap(h => h.hooks);
+  const fromLog = posts.map(p => p.title).filter(t => t && t !== 'Publicación sin nombre');
+  return [...new Set([...fromHistory, ...fromLog])].slice(-80); // tope para no inflar el prompt
+}
+function renderHistoryNote(){
+  const el = document.getElementById('historyNote');
+  if(!el) return;
+  const count = allUsedIdeas().length;
+  el.textContent = count > 0
+    ? `🔁 Vamos a evitar repetir ${count} idea${count===1?'':'s'} ya generada${count===1?'':'s'} o publicada${count===1?'':'s'} en meses anteriores.`
+    : '';
+}
+
+async function callClaude(prompt, maxTokens=1000){
+  const response = await fetch("/api/chat", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({ prompt })
+  });
+  const data = await response.json();
+  if(!response.ok){
+    throw new Error(data.error || 'Error al generar');
+  }
+  const textBlock = (data.content||[]).find(b=>b.type==='text');
+  return textBlock ? textBlock.text : '';
+}
+
+function updateWordCountHint(hintId, text, max){
+  const el = document.getElementById(hintId);
+  if(!el) return;
+  const words = (text||'').trim().length ? text.trim().split(/\s+/).filter(Boolean).length : 0;
+  el.textContent = words > 0 ? `${words}/${max} palabras` : '';
+  el.style.color = words > max ? 'var(--bad)' : '';
+}
+
+function updateFreqPreview(){
+  const el = document.getElementById('freqPreview');
+  if(!el) return;
+  const {weekly, total} = estimateMonthlyIdeaCount();
+  el.textContent = kitData.frecuencia
+    ? `📅 Con eso, el calendario va a traer ${total} ideas (${weekly} por semana × 4 semanas).`
+    : '';
+}
+
+function estimateMonthlyIdeaCount(){
+  let weekly = parseInt(kitData.frecuencia, 10);
+  if(!weekly || weekly < 1) weekly = 5; // default razonable si todavía no eligió nada
+  return { weekly, total: weekly * 4 };
+}
+
+function contextSummary(){
+  return `Sobre el negocio: ${kitData.negocio || '(no definido aún)'}
+Público objetivo: ${kitData.publico || '(no definido aún)'}
+Insights: ${kitData.insights || '(no definido aún)'}
+Hooks ya escritos: ${kitData.hooks || '(no definido aún)'}
+Pilares de contenido: ${kitData.pilares || '(no definido aún)'}
+Frecuencia de publicación: ${kitData.frecuencia || '(no definida aún)'}`;
+}
+
+async function runAI(stepId){
+  if(stepId === 'calendario'){ return runCalendarAI(); }
+
+  const btn = document.querySelector(`[data-ai="${stepId}"]`);
+  const box = document.getElementById('ai-'+stepId);
+  const originalLabel = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Generando...';
+  box.classList.add('show');
+  box.innerHTML = '<span class="ai-label">IA</span>Pensando ideas para vos...';
+
+  try{
+    let prompt = '';
+    if(stepId === 'insights'){
+      prompt = `Sos un estratega de contenido orgánico para redes sociales de una agencia argentina llamada Dinámica. Contexto del cliente:\n${contextSummary()}\n\nGenerá 4 insights posibles (creencias, miedos o frustraciones no dichas) de este público respecto al tema de la marca. Respondé SOLO con una lista numerada de 4 insights, en español rioplatense, sin preámbulo ni explicación adicional. Cada insight en una línea, máximo 25 palabras.`;
+    } else if(stepId === 'hooks'){
+      prompt = `Sos un estratega de contenido orgánico para redes sociales de una agencia argentina llamada Dinámica. Contexto del cliente:\n${contextSummary()}\n\nGenerá 5 hooks (primeras líneas o frases de apertura) para reels o posts, basados en los insights de arriba. Deben frenar el scroll: preguntas, afirmaciones que incomoden, datos sorprendentes. Respondé SOLO con una lista numerada de 5 hooks, en español rioplatense, sin preámbulo. Máximo 15 palabras cada uno.`;
+    } else if(stepId === 'pilares'){
+      prompt = `Sos un estratega de contenido orgánico para redes sociales de una agencia argentina llamada Dinámica. Contexto del cliente:\n${contextSummary()}\n\nSugerí 4 pilares de contenido (categorías temáticas recurrentes) apropiados para esta marca y público, con un % sugerido de mezcla mensual para cada uno (que sume 100%). Respondé SOLO con una lista, formato "Nombre del pilar (X%): breve descripción de una línea", en español rioplatense, sin preámbulo.`;
+    }
+
+    const result = await callClaude(prompt, 1000);
+    box.innerHTML = '<span class="ai-label">IA · Sugerencias (copiá lo que te sirva)</span>' + escapeHTML(result);
+  }catch(e){
+    box.innerHTML = '<span class="ai-label">IA</span>No se pudo generar en este momento. Probá de nuevo en unos segundos.';
+  }finally{
+    btn.disabled = false;
+    btn.textContent = originalLabel;
+  }
+}
+
+async function runCalendarAI(){
+  const btn = document.querySelector(`[data-ai="calendario"]`);
+  const box = document.getElementById('ai-calendario');
+  const originalLabel = btn.textContent;
+  btn.disabled = true;
+  box.classList.add('show');
+
+  const {weekly, total} = estimateMonthlyIdeaCount();
+  const usedFromHistory = allUsedIdeas(); // ideas de meses anteriores + posteos ya cargados
+  const generatedThisRun = []; // ideas generadas en ESTA corrida, para no repetir entre semana y semana
+  let combinedHeader = null;
+  const combinedBody = [];
+
+  try{
+    for(let week = 1; week <= 4; week++){
+      btn.textContent = `Generando semana ${week} de 4...`;
+      box.innerHTML = `<span class="ai-label">IA · Generando semana ${week} de 4</span>Armando ${weekly} idea${weekly===1?'':'s'} para la semana ${week}...`
+        + (combinedBody.length ? markdownRowsToHTML(combinedHeader, combinedBody) : '');
+
+      const exclusionList = [...usedFromHistory, ...generatedThisRun];
+      const exclusion = exclusionList.length
+        ? `\n\nIMPORTANTE — estas ideas ya se usaron (meses anteriores, publicaciones reales, o semanas previas de este mismo calendario). NO las repitas ni generes variaciones muy parecidas:\n${exclusionList.slice(-60).map(u=>'- '+u).join('\n')}`
+        : '';
+
+      const prompt = `Sos un estratega de contenido orgánico para redes sociales de una agencia argentina llamada Dinámica. Contexto del cliente:\n${contextSummary()}\n\nArmá EXACTAMENTE ${weekly} idea${weekly===1?'':'s'} de contenido para la SEMANA ${week} del mes (de 4 semanas totales). Para cada idea dame: Pilar, Hook (frase de apertura corta), Mini guion (2-3 líneas en bullet points o tipeo suelto: apertura / desarrollo / cierre-CTA — breve, no un guion final), Formato (reel/carrusel/foto/historia). Respondé SOLO en formato de tabla markdown con columnas: Pilar | Hook | Mini guion | Formato. Sin texto antes ni después de la tabla. En español rioplatense.${exclusion}`;
+
+      const result = await callClaude(prompt, 3000);
+      const parsed = parseMarkdownTable(result);
+      if(parsed){
+        if(!combinedHeader) combinedHeader = ['Semana', ...parsed.header];
+        parsed.body.forEach(row => combinedBody.push([String(week), ...row]));
+        const hookIdx = parsed.header.findIndex(h => /hook/i.test(h));
+        if(hookIdx !== -1) generatedThisRun.push(...parsed.body.map(r => r[hookIdx]).filter(Boolean));
+      }
+    }
+
+    box.innerHTML = `<span class="ai-label">IA · Calendario del mes (${combinedBody.length} ideas)</span>` + markdownRowsToHTML(combinedHeader, combinedBody);
+
+    if(generatedThisRun.length){
+      calHistory.push({date: new Date().toISOString().slice(0,10), hooks: generatedThisRun});
+      saveCalHistory();
+      renderHistoryNote();
+    }
+  }catch(e){
+    box.innerHTML = '<span class="ai-label">IA</span>No se pudo generar el calendario completo. Probá de nuevo — lo que ya se generó de las semanas anteriores no se perdió.'
+      + (combinedBody.length ? markdownRowsToHTML(combinedHeader, combinedBody) : '');
+  }finally{
+    btn.disabled = false;
+    btn.textContent = originalLabel;
+  }
+}
+
+function escapeHTML(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function parseMarkdownTable(md){
+  const lines = md.trim().split('\n').filter(l=>l.includes('|'));
+  if(lines.length < 2) return null;
+  const rows = lines.filter((l,i)=> i!==1).map(l => l.split('|').map(c=>c.trim()).filter(c=>c.length));
+  return {header: rows[0], body: rows.slice(1)};
+}
+
+function rowsToHTML(header, body){
+  let html = '<div class="cal-output"><table><thead><tr>' + header.map(h=>`<th>${escapeHTML(h)}</th>`).join('') + '</tr></thead><tbody>';
+  body.forEach(r=>{
+    html += '<tr>' + r.map(c=>`<td>${escapeHTML(c)}</td>`).join('') + '</tr>';
+  });
+  html += '</tbody></table></div>';
+  return html;
+}
+
+function markdownTableToHTML(md){
+  const parsed = parseMarkdownTable(md);
+  if(!parsed) return escapeHTML(md);
+  return rowsToHTML(parsed.header, parsed.body);
+}
+
+function markdownRowsToHTML(header, body){
+  if(!header || !body.length) return '';
+  return rowsToHTML(header, body);
+}
+
+function extractHooksFromTable(md){
+  const parsed = parseMarkdownTable(md);
+  if(!parsed) return [];
+  let idx = parsed.header.findIndex(h => /hook/i.test(h));
+  if(idx === -1) idx = parsed.header.findIndex(h => /idea/i.test(h));
+  if(idx === -1) return [];
+  return parsed.body.map(r => r[idx]).filter(Boolean);
+}
+
+
+/* ================= FASE 2 — REGISTRO DE PUBLICACIONES ================= */
+const POSTS_KEY = 'kit-contenido-posts';
+let posts = [];
+const newPostMetrics = {retencion:null, interaccion:null, alcance:null};
+
+async function loadPosts(){
+  try{
+    const res = await window.storage.get(POSTS_KEY);
+    if(res && res.value) posts = JSON.parse(res.value);
+  }catch(e){ posts = []; }
+}
+function savePosts(){
+  window.storage.set(POSTS_KEY, JSON.stringify(posts)).catch(()=>{});
+}
+
+function diagnoseFor(ret, int, alc){
+  return MATRIX.find(m => m.ret===ret && m.int===int && m.alc===alc);
+}
+
+// toggle selection for the "add post" form
+document.querySelectorAll('.post-form .toggle-pair').forEach(pair=>{
+  const metric = pair.dataset.metric;
+  pair.querySelectorAll('.toggle-opt').forEach(opt=>{
+    opt.addEventListener('click', ()=>{
+      pair.querySelectorAll('.toggle-opt').forEach(o=>o.classList.remove('sel-high','sel-low'));
+      opt.classList.add(opt.dataset.val === 'alta' ? 'sel-high' : 'sel-low');
+      newPostMetrics[metric] = opt.dataset.val;
+      checkAddBtn();
+    });
+  });
+});
+
+function checkAddBtn(){
+  const ready = newPostMetrics.retencion && newPostMetrics.interaccion && newPostMetrics.alcance;
+  document.getElementById('addPostBtn').disabled = !ready;
+}
+
+document.getElementById('addPostBtn').addEventListener('click', ()=>{
+  const title = document.getElementById('postTitle').value.trim() || 'Publicación sin nombre';
+  const date = document.getElementById('postDate').value || new Date().toISOString().slice(0,10);
+  const diag = diagnoseFor(newPostMetrics.retencion, newPostMetrics.interaccion, newPostMetrics.alcance);
+
+  posts.unshift({
+    id: Date.now(),
+    title, date,
+    retencion:newPostMetrics.retencion, interaccion:newPostMetrics.interaccion, alcance:newPostMetrics.alcance,
+    badge: diag.badge, diagTitle: diag.title, diagAction: diag.action
+  });
+  savePosts();
+
+  // reset form
+  document.getElementById('postTitle').value = '';
+  document.getElementById('postDate').value = '';
+  document.querySelectorAll('.post-form .toggle-opt').forEach(o=>o.classList.remove('sel-high','sel-low'));
+  newPostMetrics.retencion = newPostMetrics.interaccion = newPostMetrics.alcance = null;
+  checkAddBtn();
+
+  renderLog();
+  renderBalance();
+});
+
+function badgeLabel(b){ return b==='repeat' ? 'Repetir' : b==='reform' ? 'Reformular' : 'Matar'; }
+function badgeClass(b){ return b==='repeat' ? 'badge-repeat' : b==='reform' ? 'badge-reform' : 'badge-kill'; }
+
+function renderLog(){
+  const wrap = document.getElementById('postLog');
+  if(posts.length === 0){
+    wrap.innerHTML = '<div class="log-empty">Todavía no cargaste ninguna publicación.</div>';
+    return;
+  }
+  wrap.innerHTML = posts.map(p => `
+    <div class="log-entry">
+      <div class="le-main">
+        <div class="le-title">${escapeHTML(p.title)}</div>
+        <div class="le-date">${p.date}</div>
+        <div class="le-metrics">RET ${p.retencion==='alta'?'▲':'▼'} · INT ${p.interaccion==='alta'?'▲':'▼'} · ALC ${p.alcance==='alta'?'▲':'▼'}</div>
+        <div class="le-action"><b>${escapeHTML(p.diagTitle)}.</b> ${escapeHTML(p.diagAction)}</div>
+      </div>
+      <span class="diagnosis-badge le-badge ${badgeClass(p.badge)}">${badgeLabel(p.badge)}</span>
+      <button class="le-del" data-del="${p.id}" title="Eliminar">✕</button>
+    </div>
+  `).join('');
+
+  wrap.querySelectorAll('[data-del]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      posts = posts.filter(p => p.id !== Number(btn.dataset.del));
+      savePosts();
+      renderLog();
+      renderBalance();
+    });
+  });
+}
+
+function monthKey(dateStr){
+  const d = new Date(dateStr + 'T00:00:00');
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+}
+function monthLabel(key){
+  const [y,m] = key.split('-');
+  const names = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  return `${names[Number(m)-1]} ${y}`;
+}
+
+function renderBalance(){
+  const select = document.getElementById('monthSelect');
+  const content = document.getElementById('balanceContent');
+
+  if(posts.length === 0){
+    select.innerHTML = '';
+    content.innerHTML = '<div class="balance-empty">Cargá al menos una publicación para ver el balance del mes.</div>';
+    return;
+  }
+
+  const months = [...new Set(posts.map(p => monthKey(p.date)))].sort().reverse();
+  const prevSelected = select.value;
+  select.innerHTML = months.map(m => `<option value="${m}">${monthLabel(m)}</option>`).join('');
+  if(months.includes(prevSelected)) select.value = prevSelected;
+
+  renderBalanceFor(select.value);
+  select.onchange = () => renderBalanceFor(select.value);
+}
+
+function renderBalanceFor(monthKeyVal){
+  const content = document.getElementById('balanceContent');
+  const inMonth = posts.filter(p => monthKey(p.date) === monthKeyVal);
+  if(inMonth.length === 0){ content.innerHTML = '<div class="balance-empty">Sin datos para este mes.</div>'; return; }
+
+  const counts = {repeat:0, reform:0, kill:0};
+  const lowCounts = {retencion:0, interaccion:0, alcance:0};
+  inMonth.forEach(p=>{
+    counts[p.badge]++;
+    if(p.retencion==='baja') lowCounts.retencion++;
+    if(p.interaccion==='baja') lowCounts.interaccion++;
+    if(p.alcance==='baja') lowCounts.alcance++;
+  });
+
+  const metricNames = {retencion:'Retención', interaccion:'Interacción', alcance:'Alcance no-seguidores'};
+  const weakest = Object.entries(lowCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  let insight = `Analizaste <b>${inMonth.length}</b> publicación${inMonth.length===1?'':'es'} este mes.`;
+  if(weakest[1] > 0){
+    insight += ` La métrica que más te está fallando es <b>${metricNames[weakest[0]]}</b>, baja en ${weakest[1]} de ${inMonth.length} posteos — es el punto donde más rinde enfocar la próxima iteración.`;
+  } else {
+    insight += ` Todas las métricas vinieron altas en algún punto — buen mes parejo.`;
+  }
+
+  content.innerHTML = `
+    <div class="balance-grid">
+      <div class="balance-card c-repeat"><div class="num">${counts.repeat}</div><div class="lbl">Repetir</div></div>
+      <div class="balance-card c-reform"><div class="num">${counts.reform}</div><div class="lbl">Reformular</div></div>
+      <div class="balance-card c-kill"><div class="num">${counts.kill}</div><div class="lbl">Matar</div></div>
+    </div>
+    <div class="balance-insight">${insight}</div>
+  `;
+}
+
+function renderMatrixTable(){
+  const body = document.getElementById('matrixBody');
+  body.innerHTML = MATRIX.map(m => `
+    <tr>
+      <td>${m.ret==='alta'?'Alta':'Baja'}</td>
+      <td>${m.int==='alta'?'Alta':'Baja'}</td>
+      <td>${m.alc==='alta'?'Alto':'Bajo'}</td>
+      <td class="strong">${m.title}</td>
+      <td>${m.action}</td>
+    </tr>
+  `).join('');
+}
+
+/* ================= TABS ================= */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ================= INIT ================= */
+(async function init(){
+  await loadState();
+  await loadStoriesState();
+
+  // reconciliar "negocio" entre las dos pestañas (por si se completó en una sola sesión anterior)
+  if(!kitData.negocio && storiesData.negocioHistorias) kitData.negocio = storiesData.negocioHistorias;
+  if(!storiesData.negocioHistorias && kitData.negocio) storiesData.negocioHistorias = kitData.negocio;
+
+  renderSteps();
+  await loadPosts();
+  await loadCalHistory();
+  renderHistoryNote();
+  renderLog();
+  renderBalance();
+  renderMatrixTable();
+  checkAddBtn();
+
+  renderStoriesSteps();
+  await loadStoriesCalHistory();
+  renderStoriesHistoryNote();
+})();
+</script>
+
+</div><!-- /app-content -->
+
+<script>
+/* ================= PASSWORD GATE ================= */
+(function(){
+  var gate = document.getElementById('gate');
+  var appContent = document.getElementById('app-content');
+  var input = document.getElementById('gate-pass');
+  var btn = document.getElementById('gate-btn');
+  var error = document.getElementById('gate-error');
+
+  function getDeviceId(){
+    var id = localStorage.getItem('kit_device_id');
+    if(!id){
+      id = 'dev-' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+      localStorage.setItem('kit_device_id', id);
+    }
+    return id;
+  }
+
+  function showError(msg){
+    error.textContent = msg;
+    error.style.display = 'block';
+    input.value = '';
+    input.focus();
+  }
+
+  function unlock(){
+    gate.style.display = 'none';
+    appContent.style.display = 'block';
+  }
+
+  function relock(){
+    localStorage.removeItem('kit_unlocked');
+    localStorage.removeItem('kit_password');
+    appContent.style.display = 'none';
+    gate.style.display = 'flex';
+  }
+
+  async function checkPassword(pass){
+    var response = await fetch('/api/check-password', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ password: pass, deviceId: getDeviceId() })
+    });
+    return await response.json();
+  }
+
+  async function tryUnlock(){
+    btn.disabled = true;
+    btn.textContent = 'Verificando...';
+    error.style.display = 'none';
+
+    try{
+      var data = await checkPassword(input.value);
+
+      if(data.ok){
+        localStorage.setItem('kit_unlocked', 'true');
+        localStorage.setItem('kit_password', input.value);
+        unlock();
+      } else if(data.reason === 'device_limit'){
+        showError('Esta contraseña ya alcanzó el máximo de dispositivos permitidos.');
+      } else if(data.reason === 'expired'){
+        showError('Esta contraseña venció. Pedile una nueva a Dinámica.');
+      } else {
+        showError('Contraseña incorrecta. Probá de nuevo.');
+      }
+    }catch(e){
+      showError('Hubo un problema de conexión. Probá de nuevo.');
+    }finally{
+      btn.disabled = false;
+      btn.textContent = 'Ingresar';
+    }
+  }
+
+  var storedUnlocked = localStorage.getItem('kit_unlocked') === 'true';
+  var storedPassword = localStorage.getItem('kit_password');
+
+  if(storedUnlocked && storedPassword){
+    unlock();
+    checkPassword(storedPassword).then(function(data){
+      if(!data.ok){
+        relock();
+        if(data.reason === 'expired'){
+          showError('Tu acceso venció. Pedile una nueva contraseña a Dinámica.');
+        }
+      }
+    }).catch(function(){});
+  }
+
+  btn.addEventListener('click', tryUnlock);
+  input.addEventListener('keydown', function(e){
+    if(e.key === 'Enter') tryUnlock();
+  });
+})();
+</script>
+</body>
+</html>
